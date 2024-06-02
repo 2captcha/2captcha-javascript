@@ -1,8 +1,4 @@
-interface BaseSolve {
-
-}
-
-export interface paramsRecaptcha extends BaseSolve {
+export interface paramsRecaptcha {
     pageurl: string,
     googlekey: string,
     invisible?: boolean,
@@ -21,8 +17,7 @@ export interface paramsRecaptcha extends BaseSolve {
     version?: string
 }
 
-
-export interface paramsHCaptcha extends BaseSolve {
+export interface paramsHCaptcha {
     sitekey: string,
     pageurl: string,
     header_acao?: boolean,
@@ -37,7 +32,7 @@ export interface paramsHCaptcha extends BaseSolve {
 }
 
 // FixMe:data[key] - how to send this parameter
-export interface paramsFunCaptcha extends BaseSolve {
+export interface paramsFunCaptcha {
   publickey: string,
   pageurl: string,
   surl?: string,
@@ -78,9 +73,6 @@ export interface paramsGeetest {
 }
 
 /**
- * Interface for yandexSmart captcha
- * 
- * @typedef {object} yandexSmart
  * @property {string} pageurl URL of the page where the captcha is located
  * @property {string} sitekey The `sitekey` value you found on the captcha page
  * @property {string} pingback
@@ -99,9 +91,6 @@ export interface yandexSmart {
 }
 
 /**
- * Interface for GeeTest V4 captcha
- * 
- * @typedef {object} paramsGeeTestV4
  * @property {string} pageurl Required parameter. URL of the page where the captcha is located
  * @property {string} captcha_id Required parameter. Value of `captcha_id` parameter you found on target website.
  * @property {string} pingback An optional param. [More info here](https://2captcha.com/2captcha-api#pingback).
