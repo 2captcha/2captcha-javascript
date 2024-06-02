@@ -4,7 +4,7 @@ import { APIError } from "./2captchaError"
 import * as utils from "../utils/generic"
 import { softId } from "./constants/constants"
 import checkCaptchaParams from "../utils/checkCaptchaParams"
-import { paramsReCaptcha, paramsHCaptcha, paramsGeetest, paramsGeeTestCaptcha, paramsYandexSmartCaptcha, paramsImageCaptcha, paramsFunCaptcha, paramsLeminCaptcha, paramsAmazonWAFCaptcha, paramsTurnstileCaptcha, paramsCoordinatesCaptcha, paramsCapyPuzzleCaptcha, paramsDataDomeCaptcha, paramsCyberSiARACaptcha, paramsMTCaptcha, paramsFriendlyCaptcha, paramsBoundingBoxCaptcha } from "./2captcha"
+import { paramsReCaptcha, paramsHCaptcha, paramsGeeTestCaptcha, paramsGeeTestV4Captcha, paramsYandexSmartCaptcha, paramsImageCaptcha, paramsFunCaptcha, paramsLeminCaptcha, paramsAmazonWAFCaptcha, paramsTurnstileCaptcha, paramsCoordinatesCaptcha, paramsCapyPuzzleCaptcha, paramsDataDomeCaptcha, paramsCyberSiARACaptcha, paramsMTCaptcha, paramsFriendlyCaptcha, paramsBoundingBoxCaptcha } from "./2captcha"
 
 const provider = getProviderData ()
 
@@ -288,7 +288,7 @@ export class Solver {
    *      }
    *  })()
    */
-   public async geetest(params: paramsGeetest): Promise<CaptchaAnswer> {
+   public async geetest(params: paramsGeeTestCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "geetest")
       const payload = {
           ...params,
@@ -342,7 +342,7 @@ export class Solver {
    *   console.log(err);
    * })
    */
-    public async geetestV4(params: paramsGeeTestCaptcha): Promise<CaptchaAnswer> {
+    public async geetestV4(params: paramsGeeTestV4Captcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "geetest_v4")
       const payload = {
           ...params,

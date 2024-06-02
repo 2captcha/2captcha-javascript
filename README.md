@@ -1,14 +1,14 @@
 <b>[English](README.md)</b> (recommended) | [中国语文科](README.zh.md) | [Русский](README.ru.md)
 
 
-# JavaScript captcha solver module for 2Captcha API
+# CAPTCHA solving module for 2Captcha API
 
 ## Description
-A wrapper around the [2captcha](https://2captcha.com/) API. This wrapper supports any captcha bypass: reCAPTCHA V2, reCAPTCHA V3, hCaptcha, Arkose Labs FunCaptcha, image captcha, Coordinates (Click Captcha), Geetest, Geetest V4, Yandex Smart Captcha, Lemin captcha, Amazon WAF, Cloudflare Turnstile, Capy Puzzle, DataDome CAPTCHA, CyberSiARA, MTCaptcha, Friendly Captcha. 
+A wrapper around the [2Captcha](https://2captcha.com/) API. This wrapper supports any captcha bypass: reCAPTCHA V2, reCAPTCHA V3, hCaptcha, Arkose Labs FunCaptcha, image captcha, Coordinates (Click Captcha), GeeTest, GeeTest V4, Yandex Smart Captcha, Lemin Captcha, Amazon WAF, Cloudflare Turnstile, Capy Puzzle, DataDome CAPTCHA, CyberSiARA, MTCaptcha, Friendly Captcha. 
 
 Also added support for the `bounding_box` method. The Bounding Box Method allows you to mark data on the image. This method can be used to mark up datasets or highlight any objects in an image according to the given instructions. Read more about using *Bounding Box Method* on [documentation](https://2captcha.com/2captcha-api#bounding_box).
 
-[2captcha](https://2captcha.com/) is a service that solves many different types of captchas, this library serves as a wrapper around API 2captcha to bring easy, promise-based functionality to NodeJS. This library specializes in concurrent solves, and bulk-api usage.
+[2Captcha](https://2captcha.com/) is a service that solves many different types of CAPTCHAs, this library serves as a wrapper around 2Captcha's API to bring easy, promise-based functionality to Node. This library specializes in concurrent solves, and Bulk API usage.
 
 - [Install](#install)
 - [Configuration](#configuration)
@@ -17,20 +17,20 @@ Also added support for the `bounding_box` method. The Bounding Box Method allows
   - [reCAPTCHA v3](#recaptcha-v3)
   - [hCaptcha](#hcaptcha)
   - [Arkose Labs FunCaptcha](#arkose-labs-funcaptcha)
-  - [Image captchas](#image-captcha) (`base64` format)
+  - [Image CAPTCHAs](#image-captcha) (`base64` format)
   - [GeeTest](#geetest-captcha)
   - [GeeTest V4](#geetest-v4-captcha)
   - [Yandex Smart Captcha](#yandex-smart-captcha)
   - [Lemin Cropped Captcha](#lemin-captcha)
   - [Cloudflare Turnstile](#cloudflare-turnstile)
-  - [Amazon WAF Captcha](#amazon-waf-captcha)
+  - [Amazon WAF](#amazon-waf-captcha)
   - [Capy Puzzle](#capy-puzzle)
   - [Coordinates (Click Captcha)](#coordinates-captcha)
   - [DataDome CAPTCHA](#datadome-captcha)
   - [CyberSiARA](#cybersiara)
   - [MTCaptcha](#mtcaptcha)
   - [Friendly Captcha](#friendly-captcha)
-  - [Bounding Box Method](#bounding-box-method)
+  - [Bounding Box method](#bounding-box-method)
   - [Usage of proxy](#usage-of-proxy)
 - [Other methods](#other-methods)
   - [badReport](#badreport)
@@ -38,7 +38,7 @@ Also added support for the `bounding_box` method. The Bounding Box Method allows
   - [balance](#balance)
 - [Proxies](#proxies)
 - [Useful articles](#useful-articles)
-  - [How to bypass Geetest v4 CAPTCHA](https://2captcha.com/blog/geetest-v4-support)
+  - [How to bypass GeeTest v4 CAPTCHA](https://2captcha.com/blog/geetest-v4-support)
   - [Automatic reCAPTCHA V3 resolution - a tutorial for developers and customers](https://2captcha.com/blog/recaptcha-v3-automatic-resolution)
   - Finding Sitekey <a href="./docs/hcaptcha.md">hCaptcha</a>
 
@@ -59,7 +59,7 @@ Instance can be created like this:
 
 ```js
 const Captcha = require("@2captcha/captcha-solver")
-const solver = new Captcha.Solver("<Your 2captcha api key>")
+const solver = new Captcha.Solver("<Your 2Captcha API key>")
 ```
 
 ## Solve captcha
@@ -136,7 +136,7 @@ solver.funCaptcha({
 })
 ```
 
-### Image captcha
+### Image CAPTCHA
 
 To bypass a normal captcha (distorted text on image) use this method. This method also can be used to recognize any text on the image.
 
@@ -198,7 +198,7 @@ solver.geetestV4({
 
 ### Yandex Smart Captcha
 
-Use this method to solve Yandex and obtain a token to bypass the protection.
+Use this method to solve Yandex Smart Captcha and obtain a token to bypass the protection.
 
 ```js
 solver.yandexSmart({ 
@@ -213,9 +213,9 @@ solver.yandexSmart({
 })
 ```
 
-### Lemin captcha
+### Lemin Captcha
 
-Use this method to solve Lemin and obtain a token to bypass the protection.
+Use this method to solve Lemin CAPTCHAs and obtain a token to bypass the protection.
 
 ```js
 solver.lemin({

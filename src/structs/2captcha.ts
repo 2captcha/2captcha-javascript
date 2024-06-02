@@ -58,20 +58,6 @@ export interface paramsImageCaptcha {
     textinstructions?: string
 }
 
-export interface paramsGeetest {
-    gt: string,
-    challenge: string,
-    pageurl: string,
-    api_server?: string,
-    offline?: number | boolean,
-    new_captcha?: number | boolean,
-    pingback?: string,
-    soft_id?: number,
-    proxy?: string,
-    proxytype?: string,
-    userAgent?: string
-}
-
 /**
  * @property {string} pageurl URL of the page where the captcha is located
  * @property {string} sitekey The `sitekey` value you found on the captcha page
@@ -89,6 +75,20 @@ export interface paramsYandexSmartCaptcha {
     userAgent?: string
 }
 
+export interface paramsGeeTestCaptcha {
+    gt: string,
+    challenge: string,
+    pageurl: string,
+    api_server?: string,
+    offline?: number | boolean,
+    new_captcha?: number | boolean,
+    pingback?: string,
+    soft_id?: number,
+    proxy?: string,
+    proxytype?: string,
+    userAgent?: string
+}
+
 /**
  * This concerns GeeTest CAPTCHA's version 4
  * 
@@ -99,7 +99,7 @@ export interface paramsYandexSmartCaptcha {
  * @property {string} proxytype An optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
  * @property {string} userAgent An optional param. Your `userAgent` that will be passed to our worker and used to solve the captcha.
  */
-export interface paramsGeeTestCaptcha {
+export interface paramsGeeTestV4Captcha {
     pageurl: string,
     captcha_id: string,
     pingback?: string,
