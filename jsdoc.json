@@ -9,7 +9,7 @@
         "opts": {
             "encoding": "utf8",
             "recurse": true,
-            "destionation": "./docs",
+            "destination": "./docs",
             "template": "./node_modules/jaguarjs-jsdoc"
         }
     }

@@ -4,7 +4,7 @@ import { APIError } from "./2captchaError"
 import * as utils from "../utils/generic"
 import { softId } from "./constants/constants"
 import checkCaptchaParams from "../utils/checkCaptchaParams"
-import { paramsRecaptcha, paramsHCaptcha, paramsGeetest, paramsGeeTestV4, yandexSmart, paramsImageCaptcha, paramsFunCapthca, paramsLemin, paramsAmazonWAF, paramsTurnstile, paramsCoordinates, paramsCapyPuzzle, paramsDataDome, paramsCyberSiARA, paramsMTCaptcha, friendlyCaptcha, paramsBoundingBox } from "./2captcha"
+import { paramsRecaptcha, paramsHCaptcha, paramsGeetest, paramsGeeTestV4, yandexSmart, paramsImageCaptcha, paramsFunCaptcha, paramsLemin, paramsAmazonWAF, paramsTurnstile, paramsCoordinates, paramsCapyPuzzle, paramsDataDome, paramsCyberSiARA, paramsMTCaptcha, friendlyCaptcha, paramsBoundingBox } from "./2captcha"
 
 const provider = getProviderData ()
 
@@ -523,7 +523,7 @@ export class Solver {
    *      console.log(err);
    *  })
    */
-  public async funCaptcha(params: paramsFunCapthca): Promise<CaptchaAnswer> {
+  public async funCaptcha(params: paramsFunCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "funcaptcha")
       const payload = {
           ...params,

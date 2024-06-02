@@ -37,7 +37,7 @@ export interface paramsHCaptcha extends BaseSolve {
 }
 
 // FixMe:data[key] - how to send this parameter
-export interface paramsFunCapthca extends BaseSolve {
+export interface paramsFunCaptcha extends BaseSolve {
   publickey: string,
   pageurl: string,
   surl?: string,
