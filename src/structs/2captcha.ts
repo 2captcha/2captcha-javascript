@@ -1,4 +1,4 @@
-export interface paramsRecaptcha {
+export interface paramsReCaptcha {
     pageurl: string,
     googlekey: string,
     invisible?: boolean,
@@ -79,9 +79,8 @@ export interface paramsGeetest {
  * @property {string} proxy Format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
  * @property {string} proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
  * @property {string} userAgent Your `userAgent` that will be passed to our worker and used to solve the captcha.
- * 
  */
-export interface yandexSmart {
+export interface paramsYandexSmartCaptcha {
     pageurl: string,
     sitekey: string,
     pingback?: string,
@@ -91,15 +90,16 @@ export interface yandexSmart {
 }
 
 /**
+ * This concerns GeeTest CAPTCHA's version 4
+ * 
  * @property {string} pageurl Required parameter. URL of the page where the captcha is located
  * @property {string} captcha_id Required parameter. Value of `captcha_id` parameter you found on target website.
  * @property {string} pingback An optional param. [More info here](https://2captcha.com/2captcha-api#pingback).
  * @property {string} proxy An optional param. Format: `login:password@123.123.123.123:3128`
  * @property {string} proxytype An optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
  * @property {string} userAgent An optional param. Your `userAgent` that will be passed to our worker and used to solve the captcha.
- * 
  */
-export interface paramsGeeTestV4 {
+export interface paramsGeeTestCaptcha {
     pageurl: string,
     captcha_id: string,
     pingback?: string,
@@ -108,7 +108,7 @@ export interface paramsGeeTestV4 {
     userAgent?: string
 }
 
-export interface paramsLemin {
+export interface paramsLeminCaptcha {
     pageurl: string,
     captcha_id: string,
     div_id: string,
@@ -118,7 +118,7 @@ export interface paramsLemin {
     proxytype?: string
 }
 
-export interface paramsAmazonWAF {
+export interface paramsAmazonWAFCaptcha {
     pageurl: string,
     sitekey: string,
     iv: string
@@ -130,7 +130,7 @@ export interface paramsAmazonWAF {
     proxytype?: string,
 }
 
-export interface paramsTurnstile {
+export interface paramsTurnstileCaptcha {
     pageurl: string,
     sitekey: string,
     action?: string,
@@ -142,7 +142,7 @@ export interface paramsTurnstile {
     proxytype?: string,
 }
 
-export interface paramsCapyPuzzle {
+export interface paramsCapyPuzzleCaptcha {
     pageurl: string,
     captchakey: string,
     api_server?: string,
@@ -152,7 +152,7 @@ export interface paramsCapyPuzzle {
     proxytype?: string,
 }
 
-export interface paramsCoordinates {
+export interface paramsCoordinatesCaptcha {
     body: string,
     language?: 0 | 1 | 2,
     lang?: string,
@@ -161,7 +161,7 @@ export interface paramsCoordinates {
     imginstructions?: string
 }
 
-export interface paramsDataDome {
+export interface paramsDataDomeCaptcha {
     pageurl: string,
     captcha_url: string,
     userAgent: string,
@@ -170,7 +170,7 @@ export interface paramsDataDome {
     proxytype: string,
 }
 
-export interface paramsCyberSiARA {
+export interface paramsCyberSiARACaptcha {
     pageurl: string,
     master_url_id: string,
     userAgent: string,
@@ -188,7 +188,7 @@ export interface paramsMTCaptcha {
     proxytype?: string,
 }
 
-export interface friendlyCaptcha {
+export interface paramsFriendlyCaptcha {
     pageurl: string,
     sitekey: string,
     pingback?: string,
@@ -196,7 +196,7 @@ export interface friendlyCaptcha {
     proxytype?: string,
 }
 
-export interface paramsBoundingBox {
+export interface paramsBoundingBoxCaptcha {
     image: string,
     textinstructions?: string,
     imginstructions?: string,

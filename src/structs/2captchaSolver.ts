@@ -4,7 +4,7 @@ import { APIError } from "./2captchaError"
 import * as utils from "../utils/generic"
 import { softId } from "./constants/constants"
 import checkCaptchaParams from "../utils/checkCaptchaParams"
-import { paramsRecaptcha, paramsHCaptcha, paramsGeetest, paramsGeeTestV4, yandexSmart, paramsImageCaptcha, paramsFunCaptcha, paramsLemin, paramsAmazonWAF, paramsTurnstile, paramsCoordinates, paramsCapyPuzzle, paramsDataDome, paramsCyberSiARA, paramsMTCaptcha, friendlyCaptcha, paramsBoundingBox } from "./2captcha"
+import { paramsReCaptcha, paramsHCaptcha, paramsGeetest, paramsGeeTestCaptcha, paramsYandexSmartCaptcha, paramsImageCaptcha, paramsFunCaptcha, paramsLeminCaptcha, paramsAmazonWAFCaptcha, paramsTurnstileCaptcha, paramsCoordinatesCaptcha, paramsCapyPuzzleCaptcha, paramsDataDomeCaptcha, paramsCyberSiARACaptcha, paramsMTCaptcha, paramsFriendlyCaptcha, paramsBoundingBoxCaptcha } from "./2captcha"
 
 const provider = getProviderData ()
 
@@ -159,7 +159,7 @@ export class Solver {
    *     console.log(err);
    * })
    */
-  public async recaptcha(params: paramsRecaptcha): Promise<CaptchaAnswer> {
+  public async recaptcha(params: paramsReCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "userrecaptcha")
       const payload = {
           ...params,
@@ -342,7 +342,7 @@ export class Solver {
    *   console.log(err);
    * })
    */
-    public async geetestV4(params: paramsGeeTestV4): Promise<CaptchaAnswer> {
+    public async geetestV4(params: paramsGeeTestCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "geetest_v4")
       const payload = {
           ...params,
@@ -394,7 +394,7 @@ export class Solver {
    *   console.log(err);
    * })
    */
-  public async yandexSmart(params: yandexSmart): Promise<CaptchaAnswer> {
+  public async yandexSmart(params: paramsYandexSmartCaptcha): Promise<CaptchaAnswer> {
   checkCaptchaParams(params, "yandex")
   const payload = {
       ...params,
@@ -578,7 +578,7 @@ export class Solver {
    *     console.log(err);
    * })
    */
-  public async lemin(params: paramsLemin): Promise<CaptchaAnswer> {
+  public async lemin(params: paramsLeminCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "lemin")
       const payload = {
           ...params,
@@ -633,7 +633,7 @@ export class Solver {
    *     console.log(err);
    * })
    */
-  public async amazonWaf(params: paramsAmazonWAF): Promise<CaptchaAnswer> {
+  public async amazonWaf(params: paramsAmazonWAFCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "amazon_waf")
       const payload = {
           ...params,
@@ -685,7 +685,7 @@ export class Solver {
    *   console.log(err);
    * })
    */
-  public async cloudflareTurnstile(params: paramsTurnstile): Promise<CaptchaAnswer> {
+  public async cloudflareTurnstile(params: paramsTurnstileCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "turnstile")
       const payload = {
           ...params,
@@ -737,7 +737,7 @@ export class Solver {
   *      console.log(err);
   *  })
   */
-  public async coordinates(params: paramsCoordinates): Promise<CaptchaAnswer> {
+  public async coordinates(params: paramsCoordinatesCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "base64")
      
       const payload = {
@@ -804,7 +804,7 @@ export class Solver {
    *   console.log(err);
    * })
    */
-  public async capyPuzzle(params: paramsCapyPuzzle): Promise<CaptchaAnswer> {
+  public async capyPuzzle(params: paramsCapyPuzzleCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "capy")
 
       const payload = {
@@ -856,7 +856,7 @@ export class Solver {
    *   console.log(err);
    * })
    */
-  public async dataDome(params: paramsDataDome): Promise<CaptchaAnswer> {
+  public async dataDome(params: paramsDataDomeCaptcha): Promise<CaptchaAnswer> {
       checkCaptchaParams(params, "datadome")
 
       const payload = {
@@ -906,7 +906,7 @@ export class Solver {
 *   console.log(err);
 * })
 */
-public async cyberSiARA(params: paramsCyberSiARA): Promise<CaptchaAnswer> {
+public async cyberSiARA(params: paramsCyberSiARACaptcha): Promise<CaptchaAnswer> {
   checkCaptchaParams(params, "cybersiara")
 
   const payload = {
@@ -1050,7 +1050,7 @@ public async cutCaptcha(params: paramsMTCaptcha): Promise<CaptchaAnswer> {
 *   console.log(err);
 * })
 */
-public async friendlyCaptcha(params: friendlyCaptcha): Promise<CaptchaAnswer> {
+public async friendlyCaptcha(params: paramsFriendlyCaptcha): Promise<CaptchaAnswer> {
   checkCaptchaParams(params, "friendly_captcha")
 
   const payload = {
@@ -1096,7 +1096,7 @@ public async friendlyCaptcha(params: friendlyCaptcha): Promise<CaptchaAnswer> {
 *   console.log(err);
 * })
 */
-public async boundingBox(params: paramsBoundingBox): Promise<CaptchaAnswer> {
+public async boundingBox(params: paramsBoundingBoxCaptcha): Promise<CaptchaAnswer> {
   checkCaptchaParams(params, "bounding_box")
 
   const payload = {
