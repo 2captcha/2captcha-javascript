@@ -266,6 +266,21 @@ export interface paramsAtbCaptcha{
     proxytype?: string
 }
 
+export interface paramsProsopo {
+    pageurl: string,
+    sitekey: string,
+    proxy?: string,
+    proxytype?: string,
+}
+
+export interface paramsCaptchaFox {
+    pageurl: string,
+    sitekey: string,
+    userAgent: string,
+    proxy: string,
+    proxytype: string,
+}
+
 export interface paramsAudioCaptcha {
     body: string,
     lang: string,
@@ -1819,6 +1834,104 @@ public async atbCaptcha(params: paramsAtbCaptcha): Promise<CaptchaAnswer> {
         method: "post",
         headers: {'Content-Type': 'application/json'}
     })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Prosopo
+ * 
+ * @param {{ pageurl, sitekey, proxy, proxytype}} params Parameters Prosopo as an object.
+ * @param {string} params.pageurl 	Full `URL` of the page where you see the captcha.
+ * @param {string} params.sitekey The value of `data-apikey` or `data-sitekey` parameter found on the page.  
+ * @param {string} params.proxy Optional param. Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * 
+ * @example 
+ * solver.prosopo({
+ *   pageurl: "https://geizhals.de/?liftban=1&from=/455973138?fsean=5901747021356",
+ *   sitekey: "FCMST5VUMCBOCGQ9"
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async prosopo(params: paramsProsopo): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "prosopo")
+
+    const payload = {
+        ...params,
+        method: "prosopo",
+        ...this.defaultPayload,
+    }
+
+    const response = await fetch(this.in + utils.objectToURI(payload))
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves CaptchaFox
+ * 
+ * @param {{ pageurl, sitekey, userAgent, proxy, proxytype}} params Parameters CaptchaFox as an object.
+ * @param {string} params.pageurl 	Full `URL` of the page where you see the captcha.
+ * @param {string} params.sitekey The value of `sitekey` parameter found on the page.  
+ * @param {string} params.userAgent User-Agent of your MODERN browser
+ * @param {string} params.proxy Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * 
+ * @example 
+ * solver.captchaFox({
+ *   pageurl: "https://mysite.com/page/with/captchafox",
+ *   sitekey: "sk_ILKWN...",
+ *   userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit...",
+ *   proxy: "login:password@1.2.3.4:8888",
+ *   proxytype: "HTTP"
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async captchaFox(params: paramsCaptchaFox): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "captchafox")
+
+    const payload = {
+        ...params,
+        method: "captchafox",
+        ...this.defaultPayload,
+    }
+
+    const response = await fetch(this.in + utils.objectToURI(payload))
     const result = await response.text()
 
     let data;
