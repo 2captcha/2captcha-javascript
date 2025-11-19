@@ -44,6 +44,8 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [atbCAPTCHA](#atbcaptcha)
     - [Prosopo](#prosopo)
     - [CaptchaFox](#captchafox)
+    - [VkImage](#vkimage)
+    - [VkCaptcha](#vkcaptcha)
     - [Audio Captcha](#audio-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
@@ -658,6 +660,49 @@ Use this method to solve CaptchaFox and obtain a token to bypass the protection.
 solver.captchaFox({
     pageurl: "https://mysite.com/page/with/captchafox",
     sitekey: "sk_ILKWN...",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit...",
+    proxy: "login:password@1.2.3.4:8888", // The (Username : Password @ Address : Port) of our chosen proxy
+    proxytype: "http" // The 'Type' of proxy, http, https, socks, ect.
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### VkImage
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#vkcaptcha)</sup>
+
+This method can be used to solve VK captcha using graphical captcha. Returns the number of steps and solution value in the target site's API format. 
+
+```js
+solver.vkimage({
+    body: "iVBORw0KGgoAAAANSUhEUgAAAcIA...",
+    steps: "[5,19,4,3,23,8,20,4,18,10,6,10,5,12,13,18,9,14,9,15,12,19,3,12,...]",
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### VkCaptcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#vkcaptcha)</sup>
+
+Use this method to solve VkCaptcha and obtain a token to bypass the protection. 
+
+> [!IMPORTANT]  
+> To solve the VkCaptcha, you must use a proxy. It is recommended to use [residential proxies][Buy residential proxies].
+
+```js
+solver.vkcaptcha({
+    redirect_uri: "https://id.vk.com/not_robot_captcha?domain=vk.com&session_token=eyJhbGciOiJBM...",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit...",
     proxy: "login:password@1.2.3.4:8888", // The (Username : Password @ Address : Port) of our chosen proxy
     proxytype: "http" // The 'Type' of proxy, http, https, socks, ect.
