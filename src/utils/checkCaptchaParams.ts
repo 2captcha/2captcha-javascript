@@ -1,7 +1,7 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
 "turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid',
- 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'audio']
+ 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'audio']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -33,6 +33,7 @@ const prosopoRequiredFields =     ['pageurl','sitekey']
 const captchaFoxRequiredFields =  ['pageurl', 'sitekey', 'userAgent', 'proxy', 'proxytype']
 const vkimageRequiredFields =     ['body', 'steps']
 const vkcaptchaRequiredFields =   ['redirect_uri', 'userAgent', 'proxy', 'proxytype']
+const temuRequiredFields =        ['body', 'part1', 'part2', 'part3']
 const audioRequiredFields =       ['body', 'lang']
 
 /**
@@ -128,6 +129,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "vkcaptcha":
     requiredFieldsArr = vkcaptchaRequiredFields
+      break;
+    case "temu":
+    requiredFieldsArr = temuRequiredFields
       break;
     case "audio":
       requiredFieldsArr = audioRequiredFields

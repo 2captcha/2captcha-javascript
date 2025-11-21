@@ -46,6 +46,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [CaptchaFox](#captchafox)
     - [VkImage](#vkimage)
     - [VkCaptcha](#vkcaptcha)
+    - [Temu](#temu)
     - [Audio Captcha](#audio-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
@@ -706,6 +707,27 @@ solver.vkcaptcha({
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit...",
     proxy: "login:password@1.2.3.4:8888", // The (Username : Password @ Address : Port) of our chosen proxy
     proxytype: "http" // The 'Type' of proxy, http, https, socks, ect.
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Temu
+
+<sup>[API method description.](https://2captcha.com/ru/2captcha-api#temucaptcha)</sup>
+
+This method can be used to solve Temu captcha. Returns a coordinates. 
+
+```js
+solver.temu({
+    body: "data:image/png;base64,iVBORw0KG...",
+    part1: "data:image/png;base64,iVBORw0KG...",
+    part2: "data:image/png;base64,iVBORw0KG...",
+    part3: "data:image/png;base64,iVBORw0KG...",
 })
 .then((res) => {
 console.log(res);
