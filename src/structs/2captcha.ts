@@ -281,6 +281,18 @@ export interface paramsCaptchaFox {
     proxytype: string,
 }
 
+export interface paramsVkImage {
+    body: string,
+    steps: string,
+}
+
+export interface paramsVkCaptcha {
+    redirect_uri: string,
+    userAgent: string,
+    proxy: string,
+    proxytype: string,
+}
+
 export interface paramsAudioCaptcha {
     body: string,
     lang: string,
@@ -1853,6 +1865,9 @@ public async atbCaptcha(params: paramsAtbCaptcha): Promise<CaptchaAnswer> {
 /**
  * ### Solves Prosopo
  * 
+ * Use this method to solve Prosopo. Returns a token.
+ * [Read more about Prosopo Method](https://2captcha.com/2captcha-api#prosopo-procaptcha).
+ * 
  * @param {{ pageurl, sitekey, proxy, proxytype}} params Parameters Prosopo as an object.
  * @param {string} params.pageurl 	Full `URL` of the page where you see the captcha.
  * @param {string} params.sitekey The value of `data-apikey` or `data-sitekey` parameter found on the page.  
@@ -1899,6 +1914,9 @@ public async prosopo(params: paramsProsopo): Promise<CaptchaAnswer> {
 
 /**
  * ### Solves CaptchaFox
+ * 
+ * Use this method to solve CaptchaFox. Returns a token.
+ * [Read more about CaptchaFox Method](https://2captcha.com/2captcha-api#captchafox).
  * 
  * @param {{ pageurl, sitekey, userAgent, proxy, proxytype}} params Parameters CaptchaFox as an object.
  * @param {string} params.pageurl 	Full `URL` of the page where you see the captcha.
@@ -1948,6 +1966,113 @@ public async captchaFox(params: paramsCaptchaFox): Promise<CaptchaAnswer> {
     }
 }
 
+/**
+ * ### VkImage method
+ * 
+ * This method can be used to solve a captcha VkImage. Returns the number of steps and solution value in the target site's API format.
+ * [Read more about VkImage Method](https://2captcha.com/2captcha-api#vkcaptcha).
+ * 
+ * @param {{ body, steps }} params Parameters for solving VkImage Captcha.
+ * @param {string} params.body Captcha image as a base64 string.
+ * @param {string} params.steps Array of steps.
+ * 
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ * 
+ * @example
+ * solver.vkimage({
+ *   body: "iVBORw0KGgoAAAANSUhEUgAAAcIA...",
+ *   steps: "[5,19,4,3,23,8,20,4,18,10,6,10,5,12,13,18,9,14,9,15,12,19,3,12,...]",
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async vkimage(params: paramsVkImage): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "vkimage")
+
+    const payload = {
+        ...params,
+        method: "vkimage",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}  
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves VkCaptcha
+ * 
+ * This method can be used to solve VK Captcha using a token. Returns a token.
+ * [Read more about VkCaptcha Method](https://2captcha.com/2captcha-api#vkcaptcha).
+ * 
+ * @param {{ redirect_uri, userAgent, proxy, proxytype}} params Parameters VkCaptcha as an object.
+ * @param {string} params.redirect_uri 	The URL that is returned for requests to the captchas API.
+ * @param {string} params.userAgent User-Agent of your MODERN browser
+ * @param {string} params.proxy Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * 
+ * @example 
+ * solver.vkcaptcha({
+ *   redirect_uri: "https://id.vk.com/not_robot_captcha?domain=vk.com&session_token=eyJhbGciOiJBM...",
+ *   userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit...",
+ *   proxy: "login:password@1.2.3.4:8888",
+ *   proxytype: "HTTP"
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async vkcaptcha(params: paramsVkCaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "vkcaptcha")
+
+    const payload = {
+        ...params,
+        method: "vkcaptcha",
+        ...this.defaultPayload,
+    }
+
+    const response = await fetch(this.in + utils.objectToURI(payload))
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
 
 /**
  * ### Method for solving Audio captcha.

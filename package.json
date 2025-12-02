@@ -47,6 +47,10 @@
     "KeyCaptcha",
     "Cutcaptcha",
     "Tencent",
+    "Prosopo", 
+    "CaptchaFox", 
+    "VkImage", 
+    "VkCaptcha",
     "atbCAPTCHA",
     "Audio Recognition"
   ],
