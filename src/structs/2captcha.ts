@@ -293,6 +293,13 @@ export interface paramsVkCaptcha {
     proxytype: string,
 }
 
+export interface paramsTemu {
+    body: string,
+    part1: string,
+    part2: string,
+    part3: string,
+}
+
 export interface paramsAudioCaptcha {
     body: string,
     lang: string,
@@ -2048,6 +2055,7 @@ public async vkimage(params: paramsVkImage): Promise<CaptchaAnswer> {
  *   console.log(err);
  * })
  */
+
 public async vkcaptcha(params: paramsVkCaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "vkcaptcha")
 
@@ -2058,6 +2066,64 @@ public async vkcaptcha(params: paramsVkCaptcha): Promise<CaptchaAnswer> {
     }
 
     const response = await fetch(this.in + utils.objectToURI(payload))
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Temu
+ * 
+ * This method can be used to solve Temu captcha. Returns a coordinates.
+ * [Read more about Temu Method](https://2captcha.com/2captcha-api#temucaptcha).
+ * 
+ * @param {{ body, part1, part2, part3}} params Parameters Temu as an object.
+ * @param {string} params.body 	Main captcha image as a base64 string.
+ * @param {string} params.part1 Tile element as a base64 string.
+ * @param {string} params.part2 Tile element as a base64 string.
+ * @param {string} params.part3 Tile element as a base64 string.
+ * 
+ * @example 
+ * solver.temu({
+ *   body:  "data:image/png;base64,iVBORw0KG...",
+ *   part1: "data:image/png;base64,iVBORw0KG...",
+ *   part2: "data:image/png;base64,iVBORw0KG...",
+ *   part3: "data:image/png;base64,iVBORw0KG..."
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+
+public async temu(params: paramsTemu): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "temu")
+
+    const payload = {
+        ...params,
+        method: "temuimage",
+        ...this.defaultPayload,
+    };
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}  
+    })
     const result = await response.text()
 
     let data;
