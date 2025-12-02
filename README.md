@@ -42,6 +42,8 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Cutcaptcha](#cutcaptcha)
     - [Tencent](#tencent)
     - [atbCAPTCHA](#atbcaptcha)
+    - [Prosopo](#prosopo)
+    - [CaptchaFox](#captchafox)
     - [Audio Captcha](#audio-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
@@ -615,6 +617,50 @@ solver.atbCaptcha({
     pageurl: "https://mysite.com/page/with/atbCAPTCHA",
     appId: "af25e409b33d722a95e56a230ff8771c",
     apiServer: "https://cap.aisecurius.com"
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Prosopo
+
+<sup>[API method description.](http://2captcha.com/2captcha-api#prosopo-procaptcha)</sup>
+
+Use this method to solve Prosopo and obtain a token to bypass the protection.
+
+```js
+solver.prosopo({
+    pageurl: "https://mysite.com/page/with/prosopo",
+    sitekey: "5DWvYfCSGqbUiQ..."
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### CaptchaFox
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#captchafox)</sup>
+
+Use this method to solve CaptchaFox and obtain a token to bypass the protection. 
+
+> [!IMPORTANT]  
+> To solve the CaptchaFox, you must use a proxy. It is recommended to use [residential proxies][Buy residential proxies].
+
+```js
+solver.captchaFox({
+    pageurl: "https://mysite.com/page/with/captchafox",
+    sitekey: "sk_ILKWN...",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit...",
+    proxy: "login:password@1.2.3.4:8888", // The (Username : Password @ Address : Port) of our chosen proxy
+    proxytype: "http" // The 'Type' of proxy, http, https, socks, ect.
 })
 .then((res) => {
 console.log(res);
