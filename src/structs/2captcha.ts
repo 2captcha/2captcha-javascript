@@ -461,9 +461,9 @@ export class Solver {
     public async recaptcha(params: paramsRecaptcha): Promise<CaptchaAnswer> {
         checkCaptchaParams(params, "userrecaptcha")
         const payload = {
+            ...this.defaultPayload,
             ...params,
-            method: "userrecaptcha",
-            ...this.defaultPayload
+            method: "userrecaptcha"
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -515,9 +515,9 @@ export class Solver {
     public async hcaptcha(params: paramsHCaptcha): Promise<CaptchaAnswer> {
         checkCaptchaParams(params, "hcaptcha")
         const payload = {
+            ...this.defaultPayload,
             ...params,
-            method: "hcaptcha",
-            ...this.defaultPayload
+            method: "hcaptcha"
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -592,9 +592,9 @@ export class Solver {
      public async geetest(params: paramsGeetest): Promise<CaptchaAnswer> {
         checkCaptchaParams(params, "geetest")
         const payload = {
+            ...this.defaultPayload,
             ...params,
-            method: "geetest",
-            ...this.defaultPayload
+            method: "geetest"
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -770,8 +770,8 @@ export class Solver {
         checkCaptchaParams(params, "base64")
 
         const payload = {
-            ...params,
             ...this.defaultPayload,
+            ...params,
             method: "base64"
         }
         const URL = this.in
@@ -829,9 +829,9 @@ export class Solver {
     public async funCaptcha(params: paramsFunCaptcha): Promise<CaptchaAnswer> {
         checkCaptchaParams(params, "funcaptcha")
         const payload = {
+            ...this.defaultPayload,
             ...params,
             method: "funcaptcha",
-            ...this.defaultPayload,
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -884,9 +884,9 @@ export class Solver {
     public async lemin(params: paramsLemin): Promise<CaptchaAnswer> {
         checkCaptchaParams(params, "lemin")
         const payload = {
+            ...this.defaultPayload,
             ...params,
             method: "lemin",
-            ...this.defaultPayload,
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -941,9 +941,9 @@ export class Solver {
     public async amazonWaf(params: paramsAmazonWAF): Promise<CaptchaAnswer> {
         checkCaptchaParams(params, "amazon_waf")
         const payload = {
+            ...this.defaultPayload,
             ...params,
             method: "amazon_waf",
-            ...this.defaultPayload,
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -993,9 +993,9 @@ export class Solver {
     public async cloudflareTurnstile(params: paramsTurnstile): Promise<CaptchaAnswer> {
         checkCaptchaParams(params, "turnstile")
         const payload = {
+            ...this.defaultPayload,
             ...params,
             method: "turnstile",
-            ...this.defaultPayload,
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -1046,10 +1046,10 @@ export class Solver {
         checkCaptchaParams(params, "base64")
        
         const payload = {
+            ...this.defaultPayload,
             ...params,
             method: "base64",
             coordinatescaptcha: 1,
-            ...this.defaultPayload,
         }
 
         const URL = this.in
@@ -1102,9 +1102,9 @@ export class Solver {
         checkCaptchaParams(params, "capy")
 
         const payload = {
+            ...this.defaultPayload,
             ...params,
             method: "capy",
-            ...this.defaultPayload,
         }
 
         const response = await fetch(this.in + utils.objectToURI(payload))
@@ -1204,9 +1204,9 @@ public async cyberSiARA(params: paramsCyberSiARA): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "cybersiara")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "cybersiara",
-        ...this.defaultPayload,
     }
 
     const response = await fetch(this.in + utils.objectToURI(payload))
@@ -1252,9 +1252,9 @@ public async mtCaptcha(params: paramsMTCaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "mt_captcha")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "mt_captcha",
-        ...this.defaultPayload,
     }
 
     const response = await fetch(this.in + utils.objectToURI(payload))
@@ -1309,9 +1309,9 @@ public async cutCaptcha(params: paramsCutcaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "cutcaptcha")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "cutcaptcha",
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -1362,9 +1362,9 @@ public async friendlyCaptcha(params: friendlyCaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "friendly_captcha")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "friendly_captcha",
-        ...this.defaultPayload,
     }
 
     const response = await fetch(this.in + utils.objectToURI(payload))
@@ -1408,9 +1408,9 @@ public async boundingBox(params: paramsBoundingBox): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "bounding_box")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "bounding_box",
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -1474,10 +1474,10 @@ public async grid(params: paramsGrid): Promise<CaptchaAnswer> {
     params = await renameParams(params)
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "base64",
         recaptcha: 1,
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -1531,8 +1531,8 @@ public async text(params: paramsTextcaptcha): Promise<CaptchaAnswer> {
     params = await renameParams(params)
 
     const payload = {
-        ...params,
         ...this.defaultPayload,
+        ...params,
     }
 
     const URL = this.in
@@ -1590,11 +1590,11 @@ public async canvas(params: paramsGrid): Promise<CaptchaAnswer> {
     params = await renameParams(params)
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         recaptcha: 1,
         canvas: 1,
         method: "base64",
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -1653,9 +1653,9 @@ public async rotate(params: paramsRotateCaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "rotatecaptcha")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "rotatecaptcha",
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -1780,9 +1780,9 @@ public async tencent(params: paramsTencent): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "tencent")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "tencent",
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -1842,9 +1842,9 @@ public async atbCaptcha(params: paramsAtbCaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "atb_captcha")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "atb_captcha",
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -1897,9 +1897,9 @@ public async prosopo(params: paramsProsopo): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "prosopo")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "prosopo",
-        ...this.defaultPayload,
     }
 
     const response = await fetch(this.in + utils.objectToURI(payload))
@@ -1951,9 +1951,9 @@ public async captchaFox(params: paramsCaptchaFox): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "captchafox")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "captchafox",
-        ...this.defaultPayload,
     }
 
     const response = await fetch(this.in + utils.objectToURI(payload))
@@ -2002,9 +2002,9 @@ public async vkimage(params: paramsVkImage): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "vkimage")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "vkimage",
-        ...this.defaultPayload,
     }
 
     const URL = this.in
@@ -2060,9 +2060,9 @@ public async vkcaptcha(params: paramsVkCaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "vkcaptcha")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "vkcaptcha",
-        ...this.defaultPayload,
     }
 
     const response = await fetch(this.in + utils.objectToURI(payload))
@@ -2113,9 +2113,9 @@ public async temu(params: paramsTemu): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "temu")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "temuimage",
-        ...this.defaultPayload,
     };
 
     const URL = this.in
@@ -2169,9 +2169,9 @@ public async audio(params: paramsAudioCaptcha): Promise<CaptchaAnswer> {
     checkCaptchaParams(params, "audio")
 
     const payload = {
+        ...this.defaultPayload,
         ...params,
         method: "audio",
-        ...this.defaultPayload
     }
 
     const response = await fetch(this.in, {
