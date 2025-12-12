@@ -1,3 +1,1 @@
-import nodeFetch from 'node-fetch';
-
-export = typeof window === 'undefined' ? nodeFetch : window.fetch.bind(window)
+export = typeof window === "undefined" ? fetch : window.fetch.bind(window);
