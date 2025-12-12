@@ -57,6 +57,7 @@
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
+    "test": "npm run build",
     "jsdoc": "jsdoc",
     "docgen": "tsc && yarn jsdoc ./dist -R \"./readme.md\" -P \"./package.json\" -t \"./node_modules/jaguarjs-jsdoc\" -d \"./docs\" -r",
     "example": "tsc && node ./tests/mtCaptcha.js"
