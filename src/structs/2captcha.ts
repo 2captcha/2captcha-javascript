@@ -95,6 +95,7 @@ export interface yandexSmart {
 export interface paramsGeeTestV4 {
     pageurl: string,
     captcha_id: string,
+    risk_type?: string,
     pingback?: string,
     proxy?: string,
     proxytype?: string,
@@ -620,9 +621,10 @@ export class Solver {
      * This method accepts an object with the following fields: `pageurl`, `captcha_id`, `pingback`, `proxy`, `proxytype`, `userAgent`.
      * The `pageurl` and `captcha_id` fields are required.
      * 
-     * @param {{pageurl, captcha_id, pingback, proxy, proxytype, userAgent}} params The method geetestV4 takes arguments as an object.
+     * @param {{pageurl, captcha_id, risk_type, pingback, proxy, proxytype, userAgent}} params The method geetestV4 takes arguments as an object.
      * @param {string} params.pageurl Full URL of the page where you see Geetest V4 captcha.
      * @param {string} params.captcha_id Required parameter. Value of `captcha_id` parameter you found on target website.
+     * @param {string} params.risk_type An optional param. Value of `risk_type` parameter is contained in the captcha loading request.
      * @param {string} params.pingback An optional param. [More info here](https://2captcha.com/2captcha-api#pingback).
      * @param {string} params.proxy An optional param. Format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
      * @param {string} params.proxytype An optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
