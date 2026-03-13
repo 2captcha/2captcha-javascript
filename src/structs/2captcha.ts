@@ -280,6 +280,7 @@ export interface paramsCaptchaFox {
     userAgent: string,
     proxy: string,
     proxytype: string,
+    api_server?: string,
 }
 
 export interface paramsVkImage {
@@ -1927,12 +1928,13 @@ public async prosopo(params: paramsProsopo): Promise<CaptchaAnswer> {
  * Use this method to solve CaptchaFox. Returns a token.
  * [Read more about CaptchaFox Method](https://2captcha.com/2captcha-api#captchafox).
  * 
- * @param {{ pageurl, sitekey, userAgent, proxy, proxytype}} params Parameters CaptchaFox as an object.
+ * @param {{ pageurl, sitekey, userAgent, proxy, proxytype, api_server}} params Parameters CaptchaFox as an object.
  * @param {string} params.pageurl 	Full `URL` of the page where you see the captcha.
  * @param {string} params.sitekey The value of `sitekey` parameter found on the page.  
  * @param {string} params.userAgent User-Agent of your MODERN browser
  * @param {string} params.proxy Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
  * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * @param {string} params.api_server Default: https://cdn.captchafox.com/. Depending on the parameter value, the token format changes — it will be prefixed with MAM_. For this, you need to set the server URL to: https://s.uicdn.com/mampkg/@mamdev/core.frontend.libs.captchafox/. Two different APIs return two different tokens. Choose the one you need.
  * 
  * @example 
  * solver.captchaFox({
