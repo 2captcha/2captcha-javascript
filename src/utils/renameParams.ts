@@ -39,6 +39,10 @@ export default function renameParams(params: any) {
 
     // atbCAPTCHA
     "apiServer": "api_server",
+
+    // Altcha
+    "challengeUrl": "challenge_url",
+    "challengeJson": "challenge_json",
   }
 
   for(let key in params) {

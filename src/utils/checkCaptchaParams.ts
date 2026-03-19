@@ -1,7 +1,7 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
 "turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid',
- 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'audio']
+ 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'altcha', 'audio']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -34,6 +34,7 @@ const captchaFoxRequiredFields =  ['pageurl', 'sitekey', 'userAgent', 'proxy', '
 const vkimageRequiredFields =     ['body', 'steps']
 const vkcaptchaRequiredFields =   ['redirect_uri', 'userAgent', 'proxy', 'proxytype']
 const temuRequiredFields =        ['body', 'part1', 'part2', 'part3']
+const altchaRequiredFields =      ['pageurl']
 const audioRequiredFields =       ['body', 'lang']
 
 /**
@@ -133,6 +134,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
     case "temu":
     requiredFieldsArr = temuRequiredFields
       break;
+    case "altcha":
+    requiredFieldsArr = altchaRequiredFields
+      break;
     case "audio":
       requiredFieldsArr = audioRequiredFields
       break;
@@ -175,6 +179,23 @@ export default function checkCaptchaParams(params: Object, method: string) {
       isCorrectCaptchaParams = true
     }
   })
+
+  if(method === "altcha") {
+    const hasChallengeUrl = params.hasOwnProperty('challenge_url')
+    const hasChallengeJson = params.hasOwnProperty('challenge_json')
+
+    if(!hasChallengeUrl && !hasChallengeJson) {
+      isCorrectCaptchaParams = false
+      throw new Error(`Error when check params captcha.\nNot found "challenge_url" or "challenge_json" field in the Object. One of this field is required for "${method}" method. Please add field "challenge_url" or "challenge_json" to captcha parameters.`)
+    }
+
+    if(hasChallengeUrl && hasChallengeJson) {
+      isCorrectCaptchaParams = false
+      throw new Error(`Error when check params captcha.\nYou must provide exactly one of "challenge_url" or "challenge_json" for "${method}" method.`)
+    }
+
+    isCorrectCaptchaParams = true
+  }
 
   //The parameters `textinstructions` and `imginstructions` are mandatory for the methods `bounding_box`, `grid`, and `canvas`.
   if(method === "bounding_box" || method === "grid" || method === "canvas") {
