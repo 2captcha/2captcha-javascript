@@ -302,6 +302,14 @@ export interface paramsTemu {
     part3: string,
 }
 
+export interface paramsAltcha {
+    pageurl: string,
+    challengeUrl?: string,
+    challengeJson?: string,
+    proxy?: string,
+    proxytype?: string,
+}
+
 export interface paramsAudioCaptcha {
     body: string,
     lang: string,
@@ -2127,6 +2135,64 @@ public async temu(params: paramsTemu): Promise<CaptchaAnswer> {
         body: JSON.stringify(payload),
         method: "post",
         headers: {'Content-Type': 'application/json'}  
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Altcha Captcha
+ * 
+ * This method can be used to solve Altcha captcha. Returns a token.
+ * [Read more about Altcha Method](https://2captcha.com/2captcha-api#altchacaptcha).
+ * 
+ * @param {{ pageurl, challenge_url, challenge_json, proxy, proxytype}} params Parameters Altcha as an object.
+ * @param {string} params.pageurl Full URL of the page where you solve the captcha.
+ * @param {string} params.challenge_url The value of the 'challenge_url' parameter for the 'altcha-widget' element containing the captcha on the page. You can send either challenge_url or challenge_json parameter, but not two of it simultaneously.
+ * @param {string} params.challenge_json The contents of the file from the 'challenge_url' parameter. You can send either challenge_url or challenge_json parameter, but not two of it simultaneously.
+ * @param {string} params.proxy Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * 
+ * @example 
+ * solver.altcha({
+ *     pageurl: "https://mysite.com/page/with/altcha",
+ *     challenge_url: "https://example/altcha",
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+
+public async altcha(params: paramsAltcha): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+    
+    checkCaptchaParams(params, "altcha")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "altcha",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
     })
     const result = await response.text()
 

@@ -47,6 +47,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [VkImage](#vkimage)
     - [VkCaptcha](#vkcaptcha)
     - [Temu](#temu)
+    - [Altcha](#altcha)
     - [Audio Captcha](#audio-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
@@ -728,6 +729,25 @@ solver.temu({
     part1: "data:image/png;base64,iVBORw0KG...",
     part2: "data:image/png;base64,iVBORw0KG...",
     part3: "data:image/png;base64,iVBORw0KG...",
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Altcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#altchacaptcha)</sup>
+
+This method can be used to solve Altcha captcha. Returns a token. 
+
+```js
+solver.altcha({
+    pageurl: "https://mysite.com/page/with/altcha",
+    challenge_url: "https://example/altcha",
 })
 .then((res) => {
 console.log(res);
