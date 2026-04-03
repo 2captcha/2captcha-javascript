@@ -180,23 +180,6 @@ export default function checkCaptchaParams(params: Object, method: string) {
     }
   })
 
-  if(method === "altcha") {
-    const hasChallengeUrl = params.hasOwnProperty('challenge_url')
-    const hasChallengeJson = params.hasOwnProperty('challenge_json')
-
-    if(!hasChallengeUrl && !hasChallengeJson) {
-      isCorrectCaptchaParams = false
-      throw new Error(`Error when check params captcha.\nNot found "challenge_url" or "challenge_json" field in the Object. One of this field is required for "${method}" method. Please add field "challenge_url" or "challenge_json" to captcha parameters.`)
-    }
-
-    if(hasChallengeUrl && hasChallengeJson) {
-      isCorrectCaptchaParams = false
-      throw new Error(`Error when check params captcha.\nYou must provide exactly one of "challenge_url" or "challenge_json" for "${method}" method.`)
-    }
-
-    isCorrectCaptchaParams = true
-  }
-
   //The parameters `textinstructions` and `imginstructions` are mandatory for the methods `bounding_box`, `grid`, and `canvas`.
   if(method === "bounding_box" || method === "grid" || method === "canvas") {
     if(params.hasOwnProperty('textinstructions') || params.hasOwnProperty('imginstructions')) {
