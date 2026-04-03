@@ -2160,8 +2160,8 @@ public async temu(params: paramsTemu): Promise<CaptchaAnswer> {
  * 
  * @param {{ pageurl, challenge_url, challenge_json, proxy, proxytype}} params Parameters Altcha as an object.
  * @param {string} params.pageurl Full URL of the page where you solve the captcha.
- * @param {string} params.challenge_url The value of the 'challenge_url' parameter for the 'altcha-widget' element containing the captcha on the page. You can send either challenge_url or challenge_json parameter, but not two of it simultaneously.
- * @param {string} params.challenge_json The contents of the file from the 'challenge_url' parameter. You can send either challenge_url or challenge_json parameter, but not two of it simultaneously.
+ * @param {string} params.challenge_url The value of the 'challenge_url' parameter for the 'altcha-widget' element containing the captcha on the page.
+ * @param {string} params.challenge_json The contents of the file from the 'challenge_url' parameter.
  * @param {string} params.proxy Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
  * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
  * 
@@ -2169,6 +2169,7 @@ public async temu(params: paramsTemu): Promise<CaptchaAnswer> {
  * solver.altcha({
  *     pageurl: "https://mysite.com/page/with/altcha",
  *     challenge_url: "https://example/altcha",
+ *     challenge_json: '{"algorithm":"SHA-256","challenge":"a4c9d8e7f1b23a6c...",..."signature":"7b3e2a9d5c8f1046e2d91c3a..."}'
  * })
  * .then((res) => {
  *     console.log(res);
