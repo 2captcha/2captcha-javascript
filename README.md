@@ -48,6 +48,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [VkCaptcha](#vkcaptcha)
     - [Temu](#temu)
     - [Altcha](#altcha)
+    - [Binance](#binance)
     - [Audio Captcha](#audio-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
@@ -749,6 +750,29 @@ solver.altcha({
     pageurl: "https://mysite.com/page/with/altcha",
     challenge_url: "https://example/altcha",
     challenge_json: '{"algorithm":"SHA-256","challenge":"a4c9d8e7f1b23a6c...",..."signature":"7b3e2a9d5c8f1046e2d91c3a..."}'
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Binance
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#binance)</sup>
+
+This method can be used to solve Binance captcha. Returns a token. 
+
+```js
+solver.binance({
+    pageurl: "https://mysite.com/page/with/binance",
+    sitekey: "register",
+    validateId: "0a05453c44e2411195c0d0c15654d966",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+    proxy: "login:password@1.2.3.4:8888",
+    proxytype: "HTTP"
 })
 .then((res) => {
 console.log(res);

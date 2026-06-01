@@ -43,6 +43,10 @@ export default function renameParams(params: any) {
     // Altcha
     "challengeUrl": "challenge_url",
     "challengeJson": "challenge_json",
+
+    //Binance
+    "validateId": "validate_id",
+    "userAgent": "useragent"
   }
 
   for(let key in params) {
