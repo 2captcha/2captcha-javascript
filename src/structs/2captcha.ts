@@ -310,6 +310,15 @@ export interface paramsAltcha {
     proxytype?: string,
 }
 
+export interface paramsBinance {
+    pageurl: string,
+    sitekey: string,
+    validateId: string,
+    userAgent?: string,
+    proxy?: string,
+    proxytype?: string,
+}
+
 export interface paramsAudioCaptcha {
     body: string,
     lang: string,
@@ -2210,6 +2219,68 @@ public async altcha(params: paramsAltcha): Promise<CaptchaAnswer> {
         throw new APIError(data.request)
     }
 }
+
+
+/**
+ * ### Solves Binance Captcha
+ * 
+ * This method can be used to solve Binance captcha. Returns a token.
+ * [Read more about Binance Method](https://2captcha.com/2captcha-api#binance).
+ * 
+ * @param {{ pageurl, sitekey, validateId, userAgent, proxy, proxytype}} params Parameters Binance as an object.
+ * @param {string} params.pageurl Full URL of the page where you solve the captcha.
+ * @param {string} params.sitekey Value of 'bizId', 'bizType', or 'bizCode' from page requests.
+ * @param {string} params.validateId Dynamic value of 'validateId', 'securityId', or 'securityCheckResponseValidateId'.
+ * @param {string} params.userAgent Browser User-Agent. We recommend sending a valid Windows browser string.
+ * @param {string} params.proxy Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * 
+ * @example 
+ * solver.binance({
+ *     pageurl: "https://mysite.com/page/with/binance",
+ *     sitekey: "register",
+ *     validateId: "0a05453c44e2411195c0d0c15654d966",
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+
+public async binance(params: paramsBinance): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+    
+    checkCaptchaParams(params, "binance")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "binance",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
 
 /**
  * ### Method for solving Audio captcha.
