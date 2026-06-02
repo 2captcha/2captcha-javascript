@@ -46,7 +46,11 @@ export default function renameParams(params: any) {
 
     //Binance
     "validateId": "validate_id",
-    "userAgent": "useragent"
+    "userAgent": "useragent",
+
+    // Yidun
+    "yidunGetLib": "yidun_get_lib",
+    "yidunApiServerSubdomain": "yidun_api_server_subdomain"
   }
 
   for(let key in params) {

@@ -325,6 +325,19 @@ export interface paramsAudioCaptcha {
     pingback?: string,
 }
 
+export interface paramsYidun {
+    pageurl: string,
+    sitekey: string,
+    userAgent?: string,
+    yidunGetLib?: string,
+    yidunApiServerSubdomain?: string,
+    challenge?: string,
+    hcg?: string,
+    hct?: number,
+    proxy?: string,
+    proxytype?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -2338,14 +2351,79 @@ public async audio(params: paramsAudioCaptcha): Promise<CaptchaAnswer> {
     }
 }
 
+/**
+ * ### Solves Yidun NECaptcha
+ *
+ * This method can be used to solve Yidun NECaptcha. Returns a token.
+ * [Read more about Yidun NECaptcha Method](https://2captcha.com/2captcha-api#yidun).
+ *
+ * @param {{ pageurl, sitekey, userAgent, yidunGetLib, yidunApiServerSubdomain, challenge, hcg, hct, proxy, proxytype }} params Parameters Yidun NECaptcha as an object.
+ * @param {string} params.pageurl Full URL of the page where you see the captcha.
+ * @param {string} params.sitekey The value of `id` or `sitekey` parameter found on the page.
+ * @param {string} params.userAgent Optional. Browser User-Agent string.
+ * @param {string} params.yidunGetLib Optional. URL of the JavaScript file used to load the captcha.
+ * @param {string} params.yidunApiServerSubdomain Optional. Custom API server subdomain.
+ * @param {string} params.challenge Optional. Dynamic challenge value obtained from network requests.
+ * @param {string} params.hcg Optional. Captcha hash value.
+ * @param {number} params.hct Optional. Numeric timestamp identifier.
+ * @param {string} params.proxy Optional. Format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Optional. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ *
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ *
+ * @example
+ * solver.yidun({
+ *     pageurl: "https://mysite.com/page/with/yidun",
+ *     sitekey: "your_site_key"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async yidun(params: paramsYidun): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+
+    checkCaptchaParams(params, "yidun")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "yidun",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
     /**
      * Reports a captcha as correctly solved.
-     * 
+     *
      * @param {string} id The ID of the captcha
      * @throws APIError
      * @example
      * solver.goodReport("7031854546")
-     * 
+     *
      */
     public async goodReport(id: string): Promise<void> {
         const payload = {
