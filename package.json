@@ -55,7 +55,8 @@
     "atbCAPTCHA",
     "Altcha",
     "Binance",
-    "Audio Recognition"
+    "Audio Recognition",
+    "Yidun NECaptcha"
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
