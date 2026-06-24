@@ -1,7 +1,7 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
 "turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid',
- 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'altcha', 'binance', 'audio', 'yidun']
+ 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'altcha', 'binance', 'audio', 'yidun', 'alibaba']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -38,6 +38,7 @@ const altchaRequiredFields =      ['pageurl']
 const binanceRequiredFields =     ['pageurl', 'sitekey', 'validate_id']
 const audioRequiredFields =       ['body', 'lang']
 const yidunRequiredFields =       ['pageurl', 'sitekey']
+const alibabaRequiredFields =     ['pageurl', 'scene_id', 'prefix']
 
 /**
  * Getting required arguments for a captcha.
@@ -147,6 +148,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "yidun":
       requiredFieldsArr = yidunRequiredFields
+      break;
+    case "alibaba":
+      requiredFieldsArr = alibabaRequiredFields
       break;
   }
   return requiredFieldsArr

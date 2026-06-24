@@ -56,7 +56,8 @@
     "Altcha",
     "Binance",
     "Audio Recognition",
-    "Yidun NECaptcha"
+    "Yidun NECaptcha",
+    "Alibaba Captcha"
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
