@@ -50,7 +50,13 @@ export default function renameParams(params: any) {
 
     // Yidun
     "yidunGetLib": "yidun_get_lib",
-    "yidunApiServerSubdomain": "yidun_api_server_subdomain"
+    "yidunApiServerSubdomain": "yidun_api_server_subdomain",
+
+    // Alibaba
+    "sceneId": "scene_id",
+    "verifyType": "verify_type",
+    "userCertifyId": "user_certify_id",
+    "apiGetLib": "api_get_lib"
   }
 
   for(let key in params) {

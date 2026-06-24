@@ -338,6 +338,21 @@ export interface paramsYidun {
     proxytype?: string,
 }
 
+export interface paramsAlibaba {
+    pageurl: string,
+    sceneId: string,
+    prefix: string,
+    user_id?: string,
+    user_user_id?: string,
+    verifyType?: string,
+    region?: string,
+    userCertifyId?: string,
+    apiGetLib?: string,
+    userAgent?: string,
+    proxy?: string,
+    proxytype?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -2393,6 +2408,77 @@ public async yidun(params: paramsYidun): Promise<CaptchaAnswer> {
         ...this.defaultPayload,
         ...params,
         method: "yidun",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Alibaba Captcha
+ *
+ * This method can be used to solve Alibaba captcha (Aliyun). Returns a token.
+ * [Read more about Alibaba Captcha Method](https://2captcha.com/2captcha-api#alibaba).
+ *
+ * @param {{ pageurl, sceneId, prefix, user_id, user_user_id, verifyType, region, userCertifyId, apiGetLib, userAgent, proxy, proxytype }} params Parameters Alibaba Captcha as an object.
+ * @param {string} params.pageurl Full URL of the page where you see the captcha.
+ * @param {string} params.sceneId Value of `sceneId` parameter found in the captcha request on the page.
+ * @param {string} params.prefix Prefix from the subdomain of the captcha load request URL. For example: `dlw3kug` from `https://dlw3kug.captcha-open.example.aliyuncs.com/`.
+ * @param {string} params.user_id Optional. User or session identifier on the target site.
+ * @param {string} params.user_user_id Optional. Additional user identifier.
+ * @param {string} params.verifyType Optional. Version or type of the verification mechanism.
+ * @param {string} params.region Optional. Captcha processing region, e.g. `sgp`.
+ * @param {string} params.userCertifyId Optional. Verification ID of the current captcha session (`traceid` from the captcha request).
+ * @param {string} params.apiGetLib Optional. URL of the Alibaba Captcha JavaScript library (`AliyunCaptcha.js`).
+ * @param {string} params.userAgent Optional. Browser User-Agent string.
+ * @param {string} params.proxy Optional. Format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Optional. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ *
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ *
+ * @example
+ * solver.alibaba({
+ *     pageurl: "https://www.example.com",
+ *     sceneId: "abc123xyz4",
+ *     prefix: "dlw3kug",
+ *     region: "sgp",
+ *     apiGetLib: "https://o.example.com/captcha-frontend/aliyunCaptcha/AliyunCaptcha.js?t=2041",
+ *     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async alibaba(params: paramsAlibaba): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+
+    checkCaptchaParams(params, "alibaba")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "alibaba",
     };
 
     const response = await fetch(this.in, {
