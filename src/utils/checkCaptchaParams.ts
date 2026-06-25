@@ -1,7 +1,7 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
 "turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid',
- 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'altcha', 'binance', 'audio', 'yidun', 'alibaba', 'tspd']
+ 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'altcha', 'binance', 'audio', 'yidun', 'alibaba', 'tspd', 'basilisk']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -40,6 +40,7 @@ const audioRequiredFields =       ['body', 'lang']
 const yidunRequiredFields =       ['pageurl', 'sitekey']
 const alibabaRequiredFields =     ['pageurl', 'scene_id', 'prefix']
 const tspdRequiredFields =        ['pageurl', 'tspd_cookie', 'html_page_base64', 'proxy', 'proxytype']
+const basiliskRequiredFields =    ['pageurl', 'sitekey']
 
 /**
  * Getting required arguments for a captcha.
@@ -155,6 +156,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "tspd":
       requiredFieldsArr = tspdRequiredFields
+      break;
+    case "basilisk":
+      requiredFieldsArr = basiliskRequiredFields
       break;
   }
   return requiredFieldsArr

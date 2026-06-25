@@ -362,6 +362,14 @@ export interface paramsTspd {
     userAgent?: string,
 }
 
+export interface paramsBasilisk {
+    pageurl: string,
+    sitekey: string,
+    userAgent?: string,
+    proxy?: string,
+    proxytype?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -2556,6 +2564,69 @@ public async tspd(params: paramsTspd): Promise<CaptchaAnswer> {
         ...this.defaultPayload,
         ...params,
         method: "tspd",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Basilisk Captcha
+ *
+ * Token-based method for automatic solving of Basilisk captcha. Returns a token.
+ * [Read more about Basilisk captcha](https://2captcha.com/2captcha-api#basilisk-captcha).
+ *
+ * @param {{ pageurl, sitekey, userAgent, proxy, proxytype }} params Parameters Basilisk Captcha as an object.
+ * @param {string} params.pageurl Full URL of the page where you see the captcha.
+ * @param {string} params.sitekey Value of the `data-sitekey` parameter found on the page.
+ * @param {string} params.userAgent Optional. Browser User-Agent used to open the page. Use the same User-Agent in requests to the target site.
+ * @param {string} params.proxy Optional. Proxy in format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Optional. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ *
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ *
+ * @example
+ * solver.basilisk({
+ *     pageurl: "https://example.com/login",
+ *     sitekey: "b7890h...19fb2600897",
+ *     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+ *     proxy: "login:password@1.2.3.4:8080",
+ *     proxytype: "HTTP"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async basilisk(params: paramsBasilisk): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+
+    checkCaptchaParams(params, "basilisk")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "basilisk",
     };
 
     const response = await fetch(this.in, {

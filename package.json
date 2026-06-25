@@ -58,7 +58,8 @@
     "Audio Recognition",
     "Yidun NECaptcha",
     "Alibaba Captcha",
-    "TSPD"
+    "TSPD",
+    "Basilisk"
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
