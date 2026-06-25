@@ -56,7 +56,11 @@ export default function renameParams(params: any) {
     "sceneId": "scene_id",
     "verifyType": "verify_type",
     "userCertifyId": "user_certify_id",
-    "apiGetLib": "api_get_lib"
+    "apiGetLib": "api_get_lib",
+
+    // TSPD
+    "tspdCookie": "tspd_cookie",
+    "htmlPageBase64": "html_page_base64"
   }
 
   for(let key in params) {

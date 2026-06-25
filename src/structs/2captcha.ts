@@ -353,6 +353,15 @@ export interface paramsAlibaba {
     proxytype?: string,
 }
 
+export interface paramsTspd {
+    pageurl: string,
+    tspdCookie: string,
+    htmlPageBase64: string,
+    proxy: string,
+    proxytype: string,
+    userAgent?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -2479,6 +2488,74 @@ public async alibaba(params: paramsAlibaba): Promise<CaptchaAnswer> {
         ...this.defaultPayload,
         ...params,
         method: "alibaba",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves TSPD Captcha
+ *
+ * Cookie-based method for automatic solving of TSPD captcha.
+ * [Read more about TSPD captcha](https://2captcha.com/2captcha-api#tspd-captcha).
+ *
+ * **Important:** `tspdCookie` and `htmlPageBase64` are dynamic — extract them immediately before creating the task,
+ * otherwise the solve may fail. A proxy with a static session and the same IP must be used at all stages.
+ *
+ * @param {{ pageurl, tspdCookie, htmlPageBase64, proxy, proxytype, userAgent }} params Parameters TSPD Captcha as an object.
+ * @param {string} params.pageurl Full URL of the page where you see the captcha.
+ * @param {string} params.tspdCookie Cookies received on the TSPD challenge page. Values starting with `TS...` or `Tspd_...`.
+ * @param {string} params.htmlPageBase64 Full HTML of the challenge page encoded in base64.
+ * @param {string} params.proxy Proxy in format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * @param {string} params.userAgent Optional. Browser User-Agent. We recommend sending a valid Windows browser string.
+ *
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ *
+ * @example
+ * solver.tspd({
+ *     pageurl: "https://example.com/login",
+ *     tspdCookie: "TS386a400d029=082670...010245; TS386a400d078=082670...dbb3b0c",
+ *     htmlPageBase64: "PCFET0NUWVBFIGh0bWw+...",
+ *     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+ *     proxy: "login:password@1.2.3.4:8080",
+ *     proxytype: "HTTP"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async tspd(params: paramsTspd): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+
+    checkCaptchaParams(params, "tspd")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "tspd",
     };
 
     const response = await fetch(this.in, {
