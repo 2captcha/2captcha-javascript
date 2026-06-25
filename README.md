@@ -54,6 +54,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Alibaba Captcha](#alibaba-captcha)
     - [TSPD](#tspd)
     - [Basilisk](#basilisk)
+    - [Hunt](#hunt)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -906,6 +907,48 @@ solver.basilisk({
 })
 .then((res) => {
 console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Hunt
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#hunt)</sup>
+
+This method can be used to solve Hunt captcha.
+
+Hunt captcha uses a two-step workflow:
+1. Create a task without `data` to get the `X-HD` value.
+2. Send a request to the target site with the received `X-HD` header, get `meta.token`, then create a second task with `data` to get the final solution token.
+
+Required parameters: `pageurl`, `apiGetLib`.
+
+```js
+// Step 1: get X-HD
+solver.hunt({
+    pageurl: "https://example.com/page-with-hunt",
+    apiGetLib: "https://example.com/hd-api/external/apps/app-id/api.js",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+})
+.then((res) => {
+console.log(res.data); // X-HD
+})
+.catch((err) => {
+console.log(err);
+})
+
+// Step 2: solve captcha with meta.token
+solver.hunt({
+    pageurl: "https://example.com/page-with-hunt",
+    apiGetLib: "https://example.com/hd-api/external/apps/app-id/api.js",
+    data: "META_TOKEN_VALUE",
+    proxy: "login:password@1.2.3.4:8080",
+    proxytype: "HTTP"
+})
+.then((res) => {
+console.log(res.data); // solution token
 })
 .catch((err) => {
 console.log(err);

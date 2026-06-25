@@ -370,6 +370,15 @@ export interface paramsBasilisk {
     proxytype?: string,
 }
 
+export interface paramsHunt {
+    pageurl: string,
+    apiGetLib: string,
+    data?: string,
+    userAgent?: string,
+    proxy?: string,
+    proxytype?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -2523,7 +2532,7 @@ public async alibaba(params: paramsAlibaba): Promise<CaptchaAnswer> {
  * ### Solves TSPD Captcha
  *
  * Cookie-based method for automatic solving of TSPD captcha.
- * [Read more about TSPD captcha](https://2captcha.com/2captcha-api#tspd-captcha).
+ * [Read more about TSPD captcha](https://2captcha.com/2captcha-api#tspd).
  *
  * **Important:** `tspdCookie` and `htmlPageBase64` are dynamic — extract them immediately before creating the task,
  * otherwise the solve may fail. A proxy with a static session and the same IP must be used at all stages.
@@ -2591,7 +2600,7 @@ public async tspd(params: paramsTspd): Promise<CaptchaAnswer> {
  * ### Solves Basilisk Captcha
  *
  * Token-based method for automatic solving of Basilisk captcha. Returns a token.
- * [Read more about Basilisk captcha](https://2captcha.com/2captcha-api#basilisk-captcha).
+ * [Read more about Basilisk captcha](https://2captcha.com/2captcha-api#basilisk).
  *
  * @param {{ pageurl, sitekey, userAgent, proxy, proxytype }} params Parameters Basilisk Captcha as an object.
  * @param {string} params.pageurl Full URL of the page where you see the captcha.
@@ -2627,6 +2636,86 @@ public async basilisk(params: paramsBasilisk): Promise<CaptchaAnswer> {
         ...this.defaultPayload,
         ...params,
         method: "basilisk",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Hunt Captcha
+ *
+ * Token-based method for automatic solving of Hunt captcha.
+ * [Read more about Hunt captcha](https://2captcha.com/2captcha-api#hunt).
+ * Create a task without `data` to get the `X-HD` value, then create a second task with
+ * `data` set to the `meta.token` value returned by the target site to get the final solution token.
+ *
+ * @param {{ pageurl, apiGetLib, data, userAgent, proxy, proxytype }} params Parameters Hunt Captcha as an object.
+ * @param {string} params.pageurl Full URL of the page where you see the captcha.
+ * @param {string} params.apiGetLib Full URL of the `api.js` script that loads the captcha on the page.
+ * @param {string} params.data Optional. Value of `meta.token` returned by the site. Pass only for the second solving stage.
+ * @param {string} params.userAgent Optional. Browser User-Agent used to open the page. Use the same User-Agent in requests to the target site.
+ * @param {string} params.proxy Optional. Proxy in format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Optional. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ *
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ *
+ * @example
+ * // Step 1: get X-HD
+ * solver.hunt({
+ *     pageurl: "https://example.com/page-with-hunt",
+ *     apiGetLib: "https://example.com/hd-api/external/apps/app-id/api.js",
+ *     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+ * })
+ * .then((res) => {
+ *     console.log(res.data); // X-HD
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ *
+ * // Step 2: solve captcha with meta.token
+ * solver.hunt({
+ *     pageurl: "https://example.com/page-with-hunt",
+ *     apiGetLib: "https://example.com/hd-api/external/apps/app-id/api.js",
+ *     data: "META_TOKEN_VALUE",
+ *     proxy: "login:password@1.2.3.4:8080",
+ *     proxytype: "HTTP"
+ * })
+ * .then((res) => {
+ *     console.log(res.data); // solution token
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async hunt(params: paramsHunt): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+
+    checkCaptchaParams(params, "hunt")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "hunt",
     };
 
     const response = await fetch(this.in, {
