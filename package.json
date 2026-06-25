@@ -57,7 +57,8 @@
     "Binance",
     "Audio Recognition",
     "Yidun NECaptcha",
-    "Alibaba Captcha"
+    "Alibaba Captcha",
+    "TSPD"
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
