@@ -379,6 +379,15 @@ export interface paramsHunt {
     proxytype?: string,
 }
 
+export interface paramsDragAndDrop {
+    body: string,
+    images: string[],
+    textinstructions?: string,
+    language?: 0 | 1 | 2,
+    lang?: string,
+    pingback?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -2716,6 +2725,72 @@ public async hunt(params: paramsHunt): Promise<CaptchaAnswer> {
         ...this.defaultPayload,
         ...params,
         method: "hunt",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Drag & Drop captcha
+ *
+ * A method for solving captcha where one or more images need to be dragged onto specific positions on a background image.
+ * [Read more about Drag & Drop captcha](https://2captcha.com/2captcha-api#drag-and-drop-captcha).
+ *
+ * @param {{ body, images, textinstructions, language, lang, pingback }} params Parameters Drag & Drop Captcha as an object.
+ * @param {string} params.body Background image encoded into Base64 format, without the `data:image/...;base64,` prefix.
+ * @param {string[]} params.images Array of Base64-encoded images to drag. Order matters — the same order is used in the response.
+ * @param {string} params.textinstructions Optional. Text with instruction for solving the captcha, up to 140 characters. For example: "Drag the images to proper position".
+ * @param {number} params.language Optional. `0` - not specified. `1` - Cyrillic captcha. `2` - Latin captcha.
+ * @param {string} params.lang Optional. Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).
+ * @param {string} params.pingback Optional. URL for pingback (callback) response that will be sent when captcha is solved. [More info here](https://2captcha.com/2captcha-api#pingback).
+ *
+ * @returns {Promise<CaptchaAnswer>} The result from the solve. `data` is a pipe-separated string of coordinates, for example `"120,340|null|210,90"`. `null` means the corresponding image wasn't moved.
+ * @throws APIError
+ *
+ * @example
+ * const backgroundBase64 = fs.readFileSync("./media/drag_drop_main.jpeg", "base64")
+ * const imagesBase64 = [
+ *     fs.readFileSync("./media/drag_drop_image1.jpeg", "base64"),
+ *     fs.readFileSync("./media/drag_drop_image2.jpeg", "base64")
+ * ]
+ *
+ * solver.dragAndDrop({
+ *     body: backgroundBase64,
+ *     images: imagesBase64,
+ *     textinstructions: "Drag the images to proper position"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async dragAndDrop(params: paramsDragAndDrop): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "drag_drop")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "drag_drop",
     };
 
     const response = await fetch(this.in, {

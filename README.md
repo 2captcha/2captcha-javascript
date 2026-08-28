@@ -55,6 +55,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [TSPD](#tspd)
     - [Basilisk](#basilisk)
     - [Hunt](#hunt)
+    - [Drag and Drop](#drag-and-drop)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -949,6 +950,30 @@ solver.hunt({
 })
 .then((res) => {
 console.log(res.data); // solution token
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Drag and Drop
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#drag-and-drop-captcha)</sup>
+
+A method for solving captcha where one or more images need to be dragged onto specific positions on a background image.
+
+Required parameters: `body`, `images`.
+
+The result (`data`) is a pipe-separated string of coordinates, for example `"120,340|null|210,90"`. The order matches the order of the `images` array you sent. `null` means the corresponding image wasn't moved — it does **not** mean an error or coordinates `(0,0)`.
+
+```js
+solver.dragAndDrop({
+    body: "BASE64_BACKGROUND_IMAGE",
+    images: ["BASE64_IMAGE_1", "BASE64_IMAGE_2"],
+    textinstructions: "Drag the images to proper position"
+})
+.then((res) => {
+console.log(res);
 })
 .catch((err) => {
 console.log(err);

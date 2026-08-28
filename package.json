@@ -60,7 +60,8 @@
     "Alibaba Captcha",
     "TSPD",
     "Basilisk",
-    "Hunt"
+    "Hunt",
+    "Drag and Drop"
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
