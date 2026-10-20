@@ -1,7 +1,7 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
 "turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid',
- 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'altcha', 'binance', 'audio', 'yidun', 'alibaba', 'tspd', 'basilisk', 'hunt', 'drag_drop']
+ 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'prosopo', 'captchafox', 'vkimage', 'vkcaptcha', 'temu', 'altcha', 'binance', 'audio', 'yidun', 'alibaba', 'tspd', 'basilisk', 'hunt', 'drag_drop', 'incapsula']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -43,6 +43,7 @@ const tspdRequiredFields =        ['pageurl', 'tspd_cookie', 'html_page_base64',
 const basiliskRequiredFields =    ['pageurl', 'sitekey']
 const huntRequiredFields =        ['pageurl', 'api_get_lib']
 const dragAndDropRequiredFields = ['body', 'images']
+const impervaRequiredFields =     ['pageurl', 'incapsula_script_url', 'incapsula_cookies', 'proxy', 'proxytype']
 
 /**
  * Getting required arguments for a captcha.
@@ -167,6 +168,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "drag_drop":
       requiredFieldsArr = dragAndDropRequiredFields
+      break;
+    case "incapsula":
+      requiredFieldsArr = impervaRequiredFields
       break;
   }
   return requiredFieldsArr

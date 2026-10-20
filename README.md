@@ -56,6 +56,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Basilisk](#basilisk)
     - [Hunt](#hunt)
     - [Drag and Drop](#drag-and-drop)
+    - [Imperva (Incapsula)](#imperva-incapsula)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -971,6 +972,36 @@ solver.dragAndDrop({
     body: "BASE64_BACKGROUND_IMAGE",
     images: ["BASE64_IMAGE_1", "BASE64_IMAGE_2"],
     textinstructions: "Drag the images to proper position"
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Imperva (Incapsula)
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#imperva)</sup>
+
+Cookie-based method for automatic solving of Imperva (Incapsula) captcha. Returns cookies that can be used to access the target page.
+
+Required parameters: `pageurl`, `incapsulaScriptUrl`, `incapsulaCookies`, `proxy`, `proxytype`.
+
+**Important:** a proxy is required for this captcha type. Some parameters are generated dynamically and may differ with each load of a page protected by Imperva (Incapsula).
+
+The result (`data`) is an object. The cookies from `data.domains` must be passed to the target site. If `data.headers["User-Agent"]` is present, use the same User-Agent in requests to the site.
+
+```js
+solver.imperva({
+    pageurl: "https://example.com/login",
+    incapsulaScriptUrl: "/_Incapsula_Resource?SWUDNSAI=31&xinfo=1",
+    incapsulaCookies: "visid_incap_123456=sample; incap_ses_123_123456=sample",
+    reese84UrlEndpoint: "https://example.com/_Incapsula_Resource?reese84=1",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+    proxy: "login:password@1.2.3.4:8080",
+    proxytype: "HTTP"
 })
 .then((res) => {
 console.log(res);

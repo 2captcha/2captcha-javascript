@@ -61,7 +61,8 @@
     "TSPD",
     "Basilisk",
     "Hunt",
-    "Drag and Drop"
+    "Drag and Drop",
+    "Imperva"
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
