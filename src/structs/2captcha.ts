@@ -388,6 +388,16 @@ export interface paramsDragAndDrop {
     pingback?: string,
 }
 
+export interface paramsImperva {
+    pageurl: string,
+    incapsulaScriptUrl: string,
+    incapsulaCookies: string,
+    proxy: string,
+    proxytype: string,
+    userAgent?: string,
+    reese84UrlEndpoint?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -2791,6 +2801,77 @@ public async dragAndDrop(params: paramsDragAndDrop): Promise<CaptchaAnswer> {
         ...this.defaultPayload,
         ...params,
         method: "drag_drop",
+    };
+
+    const response = await fetch(this.in, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: { "Content-Type": "application/json" }
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Solves Imperva (Incapsula) Captcha
+ *
+ * Cookie-based method for automatic solving of Imperva (Incapsula) captcha.
+ * [Read more about Imperva (Incapsula) captcha](https://2captcha.com/2captcha-api#imperva).
+ *
+ * **Important:** a proxy is required for this captcha type. Some parameters are generated dynamically
+ * and may differ with each load of a page protected by Imperva (Incapsula).
+ *
+ * @param {{ pageurl, incapsulaScriptUrl, incapsulaCookies, proxy, proxytype, userAgent, reese84UrlEndpoint }} params Parameters Imperva (Incapsula) Captcha as an object.
+ * @param {string} params.pageurl The full URL of the page with the captcha.
+ * @param {string} params.incapsulaScriptUrl The URL or path of the Incapsula script, for example `/_Incapsula_Resource?...`.
+ * @param {string} params.incapsulaCookies Incapsula cookies from the site before solving the task.
+ * @param {string} params.proxy Proxy in format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
+ * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * @param {string} params.userAgent Optional. The browser User-Agent used to open the page.
+ * @param {string} params.reese84UrlEndpoint Optional. The Reese84 endpoint, if required for a specific site.
+ *
+ * @returns {Promise<CaptchaAnswer>} The result from the solve. `data` is an object with cookies in `data.domains` that must be passed to the target site.
+ * If `data.headers["User-Agent"]` is present, use the same User-Agent in requests to the site.
+ * @throws APIError
+ *
+ * @example
+ * solver.imperva({
+ *     pageurl: "https://example.com/login",
+ *     incapsulaScriptUrl: "/_Incapsula_Resource?SWUDNSAI=31&xinfo=1",
+ *     incapsulaCookies: "visid_incap_123456=sample; incap_ses_123_123456=sample",
+ *     reese84UrlEndpoint: "https://example.com/_Incapsula_Resource?reese84=1",
+ *     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+ *     proxy: "login:password@1.2.3.4:8080",
+ *     proxytype: "HTTP"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async imperva(params: paramsImperva): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+
+    checkCaptchaParams(params, "incapsula")
+
+    const payload = {
+        ...this.defaultPayload,
+        ...params,
+        method: "incapsula",
     };
 
     const response = await fetch(this.in, {

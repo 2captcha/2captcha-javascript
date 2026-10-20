@@ -60,7 +60,12 @@ export default function renameParams(params: any) {
 
     // TSPD
     "tspdCookie": "tspd_cookie",
-    "htmlPageBase64": "html_page_base64"
+    "htmlPageBase64": "html_page_base64",
+
+    // Imperva (Incapsula)
+    "incapsulaScriptUrl": "incapsula_script_url",
+    "incapsulaCookies": "incapsula_cookies",
+    "reese84UrlEndpoint": "reese84_url_endpoint"
   }
 
   for(let key in params) {
