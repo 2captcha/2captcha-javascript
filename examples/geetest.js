@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const TwoCaptcha = require("../dist/index.js");
 require('dotenv').config();
 const APIKEY = process.env.APIKEY
